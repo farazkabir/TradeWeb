@@ -1,0 +1,43 @@
+﻿<style>
+    .card {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+    }
+
+    .card-img-top {
+        width: 100%;
+        border-top-left-radius: calc(.25rem - 1px);
+        border-top-right-radius: calc(.25rem - 1px);
+    }
+</style>
+<div>
+    @foreach (var Post in Model)
+    {
+        var ImagePath = "../../Images/" + Post.FilePath;
+
+        <div class="card" style="text-align:center;max-width:75%;margin:auto;margin-bottom:30px;padding-bottom:30px;">
+            <img src="@ImagePath" class="card-img-top" />
+            <p>Owner Name: @Post.UserName</p>
+            <p>@Post.Description</p>
+            @Html.ActionLink("View Post",
+            "Index",   // <-- ActionMethod
+                             "Post", // <-- Controller Name.
+                    new { id = Post.PostId }, // <-- Route arguments.
+                    null  // <-- htmlArguments .. which are none. You need this value
+                          //     otherwise you call the WRONG method ...
+                          //     (refer to comments, below).
+                    )
+
+        </div>
+
+    }
+</div>

@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@{ 
+    var Cover = Model.Post.CoverId;
+}
+<h2 class=" p-3" style="margin-top:50px;">Posted By @Model.UserName</h2>
+
+<div class="d-flex flex-wrap">
+    @foreach (var Image in Model.Media)
+    {
+        var ImagePath = "../../Images/" + Image.FilePath;
+        if (Image.MediaId == Cover)
+        {
+             <div class="p-2" style="max-width:90%;">
+                 This Is Cover
+                <img src="@ImagePath" style="max-width:300px;" />
+            </div>
+        }
+
+        else
+        {
+            <img src="@ImagePath" style="max-width:300px;" />
+        }
+        }
+</div>
+<div class="mt-5">
+    <h3>Category: @Model.Post.CategoryName</h3>
+
+    <p>@Model.Post.PostDescription</p>
+</div>
+

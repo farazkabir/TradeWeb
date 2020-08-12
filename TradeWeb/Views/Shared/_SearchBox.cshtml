@@ -1,0 +1,12 @@
+﻿@using (Html.BeginForm("Search", "Post", FormMethod.Post, new { @class = "row text-center " }))
+{
+    <div class="form-group d-flex mx-sm-3 mb-2" style="padding-top:35px;">
+        <label for="Search" class="sr-only">Search</label>
+        <input type="text" name="Search" class="form-control" style="display:inline" id="search" placeholder="Write here">
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+    </div>
+    <label for="IsUser" id="user-label" style="display:inline">User</label>
+    @Html.CheckBox("IsUser")
+    
+    
+}

@@ -1,0 +1,63 @@
+﻿<!-- Modal -->
+@model TradeWeb.ViewModels.PostViewModel
+
+@using Microsoft.AspNet.Identity
+@{
+    // var ImagePath = "../../Images/" + Model.FilePath;
+    var UId = User.Identity.GetUserId();
+    List<SelectListItem> items = new List<SelectListItem>();
+
+    items.Add(new SelectListItem { Text = "Books", Value = "Books" });
+
+    items.Add(new SelectListItem { Text = "Sports Material", Value = "Sports Material" });
+
+    items.Add(new SelectListItem { Text = "Accessories", Value = "Accessories", Selected = true });
+    ViewBag.Category = items;
+
+
+
+}
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("AddPost", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+
+                    /* @Html.DropDownList("Category",
+                     new SelectList(Enum.GetValues(typeof(TradeWeb.ViewModels.PostViewModel.CategoryList))),
+                     "Select Category",
+                     new { @class = "form-control" }) */
+                    //   @Html.DropDownList("Category")
+                    @Html.DropDownListFor(m => m.CategoryName, (IEnumerable<SelectListItem>)ViewBag.Category,"Choose Category:", new { @class = "form-control" })
+
+
+            <div class="form-group">
+                <label>Description</label>
+                @Html.TextAreaFor(m => m.PostDescription)
+            </div>
+            <div id="multiple">
+                <input type="file" name="files" multiple />
+            </div>
+            <div id="single">
+                <input type="file" name="Cover" /><br />
+
+            </div>
+            @Html.HiddenFor(m => m.UserId, new { @Value = UId })
+            <button type="submit" class="btn btn-default">Upload</button>
+        }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>

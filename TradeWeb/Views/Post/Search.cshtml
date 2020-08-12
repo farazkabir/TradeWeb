@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+}
+@model TradeWeb.ViewModels.PostViewModel
+
+
+@Html.Partial("_SearchBox")
+<h2 class="my-3">Search Results:</h2>
+@if (Model.Users == null)
+{
+    @Html.Partial("_AllPosts", Model.AdPost)
+}
+else
+{
+    @Html.Partial("_Users", Model.Users)
+}
+
+

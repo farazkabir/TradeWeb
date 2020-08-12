@@ -1,0 +1,32 @@
+﻿
+@model TradeWeb.ViewModels.UserxViewModel
+@{
+    ViewBag.Title = "EditUser";
+}
+
+<h2>EditUser</h2>
+@{ 
+    var ImagePath ="../../Images/"+ Model.FilePath;
+    var UId = Model.UserId;
+
+}
+<div>
+    <img src="@ImagePath" />
+    <h2>Name: @Model.Name</h2>
+    @using (Html.BeginForm("EditName", "User", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name)
+
+        </div>
+        @Html.HiddenFor(m => m.UserId)
+        <button type="submit">Change Name</button>
+
+    }
+    <h3>Phone:@Model.PhoneNumber</h3>
+    <p>@Model.UserId</p>
+
+</div>
