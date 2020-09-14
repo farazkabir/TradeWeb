@@ -174,6 +174,7 @@ namespace TradeWeb.Controllers
                 p.CoverId = CoverId;
                 p.CategoryName = Post.CategoryName;
                 p.PostDescription = Post.PostDescription;
+                p.TradeDemands = Post.TradeDemands;
                 _context.Post.Add(p);
                 _context.SaveChanges();
 

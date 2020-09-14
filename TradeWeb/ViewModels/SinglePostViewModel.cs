@@ -12,6 +12,8 @@ namespace TradeWeb.ViewModels
         public Post Post { get; set; }
 
         public string UserName { get; set; }
+     //   public Comment Comment { get; set; }
         public IEnumerable<Media> Media { get; set; }
+        public IEnumerable<Comment> Comments { get; set; }
     }
 }

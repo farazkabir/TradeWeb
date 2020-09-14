@@ -11,6 +11,7 @@ namespace TradeWeb.ViewModels
         public string CoverId { get; set; }
         public string FilePath { get; set; }
         public string Description { get; set; }
+        public string TradeDemands { get; set; }
 
         public string PostId { get; set; }
         public string UserName { get; set; }

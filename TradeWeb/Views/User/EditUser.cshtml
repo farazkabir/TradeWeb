@@ -11,21 +11,31 @@
 
 }
 <div>
-    <img src="@ImagePath" />
-    <h2>Name: @Model.Name</h2>
-    @using (Html.BeginForm("EditName", "User", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
+    <img class="img-fluid" style="max-width:300px;" src="@ImagePath" />
+    <h2>Name: @Model.Name 
+        <span>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Edit
+            </button>
+        </span>
+    </h2>
+    
+    <div class="collapse" id="collapseExample">
+        @using (Html.BeginForm("EditName", "User", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.Name)
-            @Html.TextBoxFor(m => m.Name)
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name)
 
-        </div>
-        @Html.HiddenFor(m => m.UserId)
-        <button type="submit">Change Name</button>
+            </div>
+            @Html.HiddenFor(m => m.UserId)
+            <button type="submit">Change Name</button>
 
-    }
+        }
+    </div>
+   
     <h3>Phone:@Model.PhoneNumber</h3>
     <p>@Model.UserId</p>
 

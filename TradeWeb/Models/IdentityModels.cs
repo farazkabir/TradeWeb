@@ -30,6 +30,7 @@ namespace TradeWeb.Models
       
         public DbSet<Media> Media { get; set; }
         public DbSet<Post> Post { get; set; }
+        public DbSet<Comment> Comment { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

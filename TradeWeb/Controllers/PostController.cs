@@ -46,12 +46,29 @@ namespace TradeWeb.Controllers
                                        UserId = post.UserId,
                                        UserName = _context.Users.FirstOrDefault(u => u.UserId == post.UserId).Name,
                                        FilePath = media.FilePath,
-                                       Description = post.PostDescription
+                                       Description = post.PostDescription,
+                                       TradeDemands = post.TradeDemands
                                    }
                                ).Where(m => m.CoverId == m.MediaId);
                
 
                 PM.AdPost = SearchedPosts.ToList();
+                //var resultu = _context.Users
+                //.Where(u => u.Name.Contains(SearchQuery)
+                //|| u.ApplicationUser.Email.Contains(SearchQuery))
+                // .Join(_context.Media,
+                //                   user => user.MediaId,
+                //                   media => media.MediaId,
+                //                   (user, media) => new UserxViewModel
+                //                   {
+                //                       UserId = user.UserId,
+                //                       MediaId = media.MediaId,
+                //                       Name = user.Name,
+                //                       FilePath = media.FilePath,
+
+                //                   }
+                //               );
+                //PM.Users = resultu.ToList();
 
                 return View(PM);
 
@@ -84,6 +101,7 @@ namespace TradeWeb.Controllers
             var Post = _context.Post.SingleOrDefault(p => p.PostId == id);
             var Media = _context.Media.Where(m => m.PostId == id);
             var User = _context.Users.SingleOrDefault(u => u.UserId == Post.UserId);
+            var Comments= _context.Comment.Where(c=>c.PostId == id);
             
             
             var SinglePost = new SinglePostViewModel();
@@ -92,10 +110,40 @@ namespace TradeWeb.Controllers
             SinglePost.UserName = User.Name;
 
             SinglePost.Media = Media.ToList();
+            SinglePost.Comments = Comments.ToList();
+
+
+
+            return View(SinglePost);
+        }
+
+        [HttpPost]
+        public ActionResult AddComment(Comment Comment)
+        {
+            string PostId;
+
+
+            if (ModelState.IsValid)
+            {
+                Comment C = new Comment();
+                C.CommentId = Guid.NewGuid().ToString();
+                //Comment.Timestamp = DateTime.Now;
+                C.Content = Comment.Content;
+                C.PostId = Comment.PostId;
+                C.UserId = Comment.UserId;
+                
+              
+                _context.Comment.Add(C);
+               
+                _context.SaveChanges();
 
             
-            
-            return View(SinglePost);
+
+            }
+
+            PostId = Comment.PostId;
+            return RedirectToAction("Index",  // <-- ActionMethod
+               "Post", new { id = PostId });
         }
     }
 }

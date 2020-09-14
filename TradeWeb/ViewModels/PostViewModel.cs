@@ -16,13 +16,16 @@ namespace TradeWeb.ViewModels
 
         public string UserId { get; set; }
         public string PostDescription { get; set; }
+        public string TradeDemands { get; set; }
         public HttpPostedFileBase Cover { get; set; }
         [Required(ErrorMessage = "Please select file.")]
         [Display(Name = "Browse File")]
         public HttpPostedFileBase[] files { get; set; }
         public IEnumerable<Post> Posts { get; set; }
+        public Comment Comment { get; set; }
         public ICollection<AdPostViewModel> AdPost { get; set; }
         public ICollection<UserxViewModel> Users { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
         ///  public List<string> PostInfo { get; set; }
 
