@@ -1,4 +1,9 @@
-﻿<style>
+﻿@model TradeWeb.ViewModels.PostViewModel
+@{ 
+    var delete = Model.UserView;
+}
+
+<style>
     .card {
         position: relative;
         display: -ms-flexbox;
@@ -24,8 +29,8 @@
         border-top-right-radius: calc(.25rem - 1px);
     }
 </style>
-<div>
-    @foreach (var Post in Model)
+<div class="row">
+    @foreach (var Post in Model.AdPost)
     {
         var ImagePath = "../../Images/" + Post.FilePath;
     <div class="col-md-6">
@@ -42,8 +47,17 @@
                           //     otherwise you call the WRONG method ...
                           //     (refer to comments, below).
                     )
-
+            @if (delete == true)
+            {
+                @Html.ActionLink("Delete", // <-- Link text
+                     "DeletePost", // <-- Action Method Name
+                     "Post", // <-- Controller Name
+                     new { id = Post.PostId }, // <-- Route value
+                     new { @class = "ui-btn" } // <-- htmlArguments
+                     )
+            }
         </div>
+       
     </div>
 
     }

@@ -67,6 +67,7 @@ namespace TradeWeb.Controllers
             u.PhoneNumber = User.PhoneNumber;
             u.MediaId = User.MediaId;
             u.Id = User.Id;
+            u.Address = User.Address;
 
             Media img = new Media();
             img.MediaId=User.MediaId;
@@ -104,6 +105,44 @@ namespace TradeWeb.Controllers
             return View(u);
         }
         [HttpPost]
+        public ActionResult EditProfilePicture(UserxViewModel User)
+        {
+            //Use Namespace called :  System.IO  
+            string FileName = Path.GetFileNameWithoutExtension(User.ImageFile.FileName);
+
+            //To Get File Extension  
+            string FileExtension = Path.GetExtension(User.ImageFile.FileName);
+
+            //Add Current Date To Attached File Name  
+            FileName = DateTime.Now.ToString("yyyyMMdd") + "-" + FileName.Trim() + FileExtension;
+
+            //Get Upload path from Web.Config file AppSettings.  
+            string UploadPath = "";
+            string Id = User.MediaId = Guid.NewGuid().ToString();
+
+            //Its Create complete path to store in server.  
+            User.FilePath = UploadPath + Id + FileName;
+            User.MediaId = Id;
+            //To copy and save file into server.  
+            User.ImageFile.SaveAs(Server.MapPath("~/Images/") + User.FilePath);
+          
+            Media img = new Media();
+            img.MediaId = User.MediaId;
+            img.FilePath = User.FilePath;
+
+
+            _context.Media.Add(img);
+            var EditUser = _context.Users.SingleOrDefault(user => user.UserId == User.UserId);
+
+            EditUser.MediaId = User.MediaId;
+            _context.SaveChanges();
+            return RedirectToAction("EditUser",  // <-- ActionMethod
+              "User", new { id = User.UserId });
+
+        }
+
+
+        [HttpPost]
         public ActionResult EditName(UserxViewModel User)
         {
             var EditUser = _context.Users.SingleOrDefault(user => user.UserId == User.UserId);
@@ -115,6 +154,34 @@ namespace TradeWeb.Controllers
             return RedirectToAction("EditUser",  // <-- ActionMethod
                "User", new { id = User.UserId });
             
+
+        }
+        [HttpPost]
+        public ActionResult EditPhone(UserxViewModel User)
+        {
+            var EditUser = _context.Users.SingleOrDefault(user => user.UserId == User.UserId);
+
+            EditUser.PhoneNumber = User.PhoneNumber;
+
+            _context.SaveChanges();
+            //  var id = User.Id;
+            return RedirectToAction("EditUser",  // <-- ActionMethod
+               "User", new { id = User.UserId });
+
+
+        }
+        [HttpPost]
+        public ActionResult EditAddress(UserxViewModel User)
+        {
+            var EditUser = _context.Users.SingleOrDefault(user => user.UserId == User.UserId);
+
+            EditUser.Address = User.Address;
+
+            _context.SaveChanges();
+            //  var id = User.Id;
+            return RedirectToAction("EditUser",  // <-- ActionMethod
+               "User", new { id = User.UserId });
+
 
         }
 
@@ -188,39 +255,102 @@ namespace TradeWeb.Controllers
         }
 
 
-
-            /*   [HttpPost]
-               public ActionResult UploadFiles()
-               {
-                   bool isSuccess = false;
-                   string serverMessage = string.Empty;
-                   Guid guid = Guid.NewGuid();
-                   string str = guid.ToString();
-                   Media img = new Media();
-                   img.MediaId = str;
-                   var fileOne = Request.Files[0] as HttpPostedFileBase;
-                //   var fileTwo = Request.Files[1] as HttpPostedFileBase;
-                   string uploadPath = Server.MapPath("~/Uploads/") +str+ Path.GetFileName(fileOne.FileName);/// ConfigurationManager.AppSettings["UPLOAD_PATH"].ToString();
-                   // string newFileOne = Path.Combine(uploadPath, fileOne.FileName);
-                   // string newFileTwo = Path.Combine(uploadPath, fileTwo.FileName);
-                   img.FilePath = uploadPath;
-
-                   fileOne.SaveAs(uploadPath);
-                 //  fileTwo.SaveAs(newFileTwo);
-
-                   if (System.IO.File.Exists(uploadPath) )
-                   {
-                       isSuccess = true;
-                       serverMessage = img.MediaId;
-                   }
-                   else
-                   {
-                       isSuccess = false;
-                       serverMessage = "Files upload is failed. Please try again.";
-                   }
-                   _context.Media.Add(img);
-                   return Json(new { IsSucccess = isSuccess, ServerMessage = serverMessage }, JsonRequestBehavior.AllowGet);
-               } */
-
+        public ActionResult UserProfile(string id)
+        {
+            var Profile = new ProfileViewModel();
+            Profile.UserId = id;
+            Profile.FilePath = _context.Media.SingleOrDefault(m => m.MediaId == _context.Users.FirstOrDefault(u => u.UserId == id).MediaId).FilePath;
+            var userDb = _context.Users.SingleOrDefault(u => u.UserId == id);
+            Profile.Name = userDb.Name;
+            Profile.Address = userDb.Address;
+            Profile.PhoneNumber = userDb.PhoneNumber;
+            //Profile.FilePath = _context.Media.FirstOrDefault(m => m.MediaId == _context.Users.FirstOrDefault(u => u.UserId == id).MediaId).FilePath;
+            FeedbackViewModel PM = new FeedbackViewModel();
+            var reviews = _context.Review
+                               .Join(
+                                   _context.Users,
+                                   review => review.ReviewerId,
+                                   user => user.UserId,
+                                   (review, user) => new FeedbackViewModel
+                                   {
+                                       SubjectId = review.UserId,
+                                       //MediaId = media.MediaId,
+                                       //CoverId = post.CoverId,
+                                       WriterId = review.ReviewerId,
+                                       WriterName = _context.Users.FirstOrDefault(u => u.UserId == review.ReviewerId).Name,
+                                       FilePath = _context.Media.FirstOrDefault(m => m.MediaId == _context.Users.FirstOrDefault(u => u.UserId == review.ReviewerId).MediaId).FilePath,
+                                       Content = review.Content,
+                                       Type = "REVIEW"
+                                   }
+                               );
+            Console.WriteLine("rendered");
+            Profile.Reviews = reviews.ToList();
+            return View(Profile);
         }
+        [HttpPost]
+        public ActionResult AddReview(Review Review)
+        {
+            string UserId;
+
+
+            if (ModelState.IsValid)
+            {
+                Review R = new Review();
+                R.ReviewId = Guid.NewGuid().ToString();
+                //Comment.Timestamp = DateTime.Now;
+                R.Content = Review.Content;
+                R.ReviewerId = Review.ReviewerId;
+                R.UserId = Review.UserId;
+                R.Timestamp = DateTime.Now;
+
+
+
+                _context.Review.Add(R);
+
+                _context.SaveChanges();
+
+
+
+            }
+
+            UserId = Review.UserId;
+            return RedirectToAction("UserProfile",  // <-- ActionMethod
+               "User", new { id = UserId });
+        }
+
+
+        /*   [HttpPost]
+           public ActionResult UploadFiles()
+           {
+               bool isSuccess = false;
+               string serverMessage = string.Empty;
+               Guid guid = Guid.NewGuid();
+               string str = guid.ToString();
+               Media img = new Media();
+               img.MediaId = str;
+               var fileOne = Request.Files[0] as HttpPostedFileBase;
+            //   var fileTwo = Request.Files[1] as HttpPostedFileBase;
+               string uploadPath = Server.MapPath("~/Uploads/") +str+ Path.GetFileName(fileOne.FileName);/// ConfigurationManager.AppSettings["UPLOAD_PATH"].ToString();
+               // string newFileOne = Path.Combine(uploadPath, fileOne.FileName);
+               // string newFileTwo = Path.Combine(uploadPath, fileTwo.FileName);
+               img.FilePath = uploadPath;
+
+               fileOne.SaveAs(uploadPath);
+             //  fileTwo.SaveAs(newFileTwo);
+
+               if (System.IO.File.Exists(uploadPath) )
+               {
+                   isSuccess = true;
+                   serverMessage = img.MediaId;
+               }
+               else
+               {
+                   isSuccess = false;
+                   serverMessage = "Files upload is failed. Please try again.";
+               }
+               _context.Media.Add(img);
+               return Json(new { IsSucccess = isSuccess, ServerMessage = serverMessage }, JsonRequestBehavior.AllowGet);
+           } */
+
+    }
 }       

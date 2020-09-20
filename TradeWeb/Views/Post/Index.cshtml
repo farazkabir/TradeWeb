@@ -48,15 +48,16 @@
 
     <p>@Model.Post.PostDescription</p>
     <p>@Model.Post.TradeDemands</p>
-   
-</div>
-@Html.Partial("_CommentForm", new ViewDataDictionary { { "PostId", Model.Post.PostId }  })
 
-<div>
+</div>
+@Html.Partial("_CommentForm", new ViewDataDictionary { { "PostId", Model.Post.PostId } })
+
+@Html.Partial("~/Views/Post/_AllComments.cshtml")
+@*<div>
 
     <h2>All comments</h2>
     @foreach (var c in Model.Comments)
     {
-       <div><span>@c.UserId</span> @c.Content</div>
+        <div><span>@c.UserId</span> @c.Content</div>
     }
-</div>
+</div>*@

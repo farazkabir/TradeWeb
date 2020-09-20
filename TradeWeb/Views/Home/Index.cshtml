@@ -5,6 +5,7 @@
 @{
     // var ImagePath = "../../Images/" + Model.FilePath;
     var UId = User.Identity.GetUserId();
+    Model.UserView = false;
 
 }
 @model TradeWeb.ViewModels.PostViewModel
@@ -31,7 +32,7 @@
     </div>
 
 
-    @Html.Partial("_AllPosts", Model.AdPost)
+    @Html.Partial("_AllPosts") //,Model.AdPost
     @Html.Partial("_AddPostForm")
 
     @section Scripts{

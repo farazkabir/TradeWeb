@@ -11,6 +11,6 @@ namespace TradeWeb.Models
         public string Content { get; set; }
         public string PostId { get; set; }
         public string UserId { get; set; }
-        public DateTime Timestamp { get; }
+        public DateTime Timestamp { get; set; }
     }
 }

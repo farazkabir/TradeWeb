@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
-
+using System.Web.Mvc;
 
 namespace TradeWeb.Models
 {
@@ -16,7 +17,8 @@ namespace TradeWeb.Models
         public string Name { get; set; }
         public int PhoneNumber { get; set; }
         public string Address { get; set; }
-       // public string MediaId { get; set; }
+        // public string MediaId { get; set; }
+       
         [Key, ForeignKey("ApplicationUser")]
         public string UserId { get; set; }
 
