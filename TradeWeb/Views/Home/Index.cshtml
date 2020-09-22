@@ -9,8 +9,8 @@
 }
 @model TradeWeb.ViewModels.PostViewModel
 <style>
-    #user-label, #IsUser{
-        display:none !important;
+    #user-label, #IsUser {
+        display: none !important;
     }
 </style>
 
@@ -18,16 +18,19 @@
     <h2 class="text-center">TradeVilla or TradeWeb Whatever!</h2>
 </div>
 
+
+
+
 @if (Request.IsAuthenticated)
 {
     <!-- Button trigger modal -->
     @Html.Partial("_SearchBox")
-<div class="text-center">
-    <button type="button" class="btn d-block btn-primary mt-5" style="margin-top:20px;margin-bottom:20px;" data-toggle="modal" data-target="#exampleModal">
-        Add Post
-    </button>
-</div>
-    
+    <div class="text-center">
+        <button type="button" class="btn d-block btn-primary mt-5" style="margin-top:20px;margin-bottom:20px;" data-toggle="modal" data-target="#exampleModal">
+            Add Post
+        </button>
+    </div>
+
 
     @Html.Partial("_AllPosts", Model.AdPost)
     @Html.Partial("_AddPostForm")

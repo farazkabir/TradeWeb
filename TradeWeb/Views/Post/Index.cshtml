@@ -1,8 +1,9 @@
 ﻿
+
 @{
     ViewBag.Title = "Index";
 }
-@{ 
+@{
     var Cover = Model.Post.CoverId;
 }
 <h2 class=" p-3" style="margin-top:50px;">Posted By @Model.UserName</h2>
@@ -13,8 +14,8 @@
         var ImagePath = "../../Images/" + Image.FilePath;
         if (Image.MediaId == Cover)
         {
-             <div class="p-2" style="max-width:90%;">
-                 This Is Cover
+            <div class="p-2" style="max-width:90%;">
+                This Is Cover
                 <img src="@ImagePath" style="max-width:300px;" />
             </div>
         }
@@ -23,7 +24,7 @@
         {
             <img src="@ImagePath" style="max-width:300px;" />
         }
-        }
+    }
 </div>
 <div class="mt-5">
     <h3>Category: @Model.Post.CategoryName</h3>
