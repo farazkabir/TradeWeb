@@ -215,6 +215,10 @@
     <Compile Include="Migrations\202005152020055_mediainpost.Designer.cs">
       <DependentUpon>202005152020055_mediainpost.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009221436292_dbDatabase.cs" />
+    <Compile Include="Migrations\202009221436292_dbDatabase.Designer.cs">
+      <DependentUpon>202009221436292_dbDatabase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -341,6 +345,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005152020055_mediainpost.resx">
       <DependentUpon>202005152020055_mediainpost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009221436292_dbDatabase.resx">
+      <DependentUpon>202009221436292_dbDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
