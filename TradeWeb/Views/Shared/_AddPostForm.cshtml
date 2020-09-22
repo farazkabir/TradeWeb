@@ -17,6 +17,12 @@
 
 
 }
+<style>
+    .cover img, .gallery img{
+        max-width:150px;
+        height:auto;
+    }
+</style>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -36,23 +42,36 @@
                      "Select Category",
                      new { @class = "form-control" }) */
                     //   @Html.DropDownList("Category")
-                    @Html.DropDownListFor(m => m.CategoryName, (IEnumerable<SelectListItem>)ViewBag.Category,"Choose Category:", new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.CategoryName, (IEnumerable<SelectListItem>)ViewBag.Category, "Choose Category:", new { @class = "form-control" })
 
 
-            <div class="form-group">
-                <label>Description</label>
-                @Html.TextAreaFor(m => m.PostDescription)
-            </div>
-            <div id="multiple">
-                <input type="file" name="files" multiple />
-            </div>
-            <div id="single">
-                <input type="file" name="Cover" /><br />
+                    <div class="form-group">
+                        <label>Description</label>
+                        @Html.TextAreaFor(m => m.PostDescription)
+                    </div>
+                    <div class="form-group">
+                        <label>Trade Demands:</label>
+                        @Html.TextAreaFor(m => m.TradeDemands)
+                    </div>
 
-            </div>
-            @Html.HiddenFor(m => m.UserId, new { @Value = UId })
-            <button type="submit" class="btn btn-default">Upload</button>
-        }
+                    <div class="cover" style="max-width:600px"></div>
+                    <div id="single">
+                        <label>Upload Cover</label>
+                        <input type="file" id="cover-photo-add" name="Cover" /><br />
+
+                    </div>
+                    <div class="gallery" style="max-width:600px"></div>
+                    <div id="multiple">
+                        <label>Upload product images</label>
+                        <input type="file" name="files" multiple id="gallery-photo-add" />
+                    </div>
+
+
+
+
+                    @Html.HiddenFor(m => m.UserId, new { @Value = UId })
+                    <button type="submit" class="btn btn-default">Upload</button>
+                }
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -61,3 +80,6 @@
         </div>
     </div>
 </div>
+
+
+

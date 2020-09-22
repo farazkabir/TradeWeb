@@ -40,7 +40,8 @@ namespace TradeWeb.Controllers
                                        UserId = post.UserId,
                                        UserName = _context.Users.FirstOrDefault(u=> u.UserId == post.UserId).Name,
                                        FilePath = media.FilePath,
-                                       Description = post.PostDescription
+                                       Description = post.PostDescription,
+                                       TradeDemands= post.TradeDemands
                                    }
                                ).Where(m=> m.CoverId == m.MediaId);
                Console.WriteLine("rendered");

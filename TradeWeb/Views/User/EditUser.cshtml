@@ -5,28 +5,128 @@
 }
 
 <h2>EditUser</h2>
-@{ 
-    var ImagePath ="../../Images/"+ Model.FilePath;
+@{
+    var ImagePath = "../../Images/" + Model.FilePath;
     var UId = Model.UserId;
 
 }
 <div>
-    <img src="@ImagePath" />
-    <h2>Name: @Model.Name</h2>
-    @using (Html.BeginForm("EditName", "User", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
+    <img class="img-fluid" style="max-width:300px;" src="@ImagePath" />
+    <div class="profile"></div>
+    <div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.Name)
-            @Html.TextBoxFor(m => m.Name)
+        @using (Html.BeginForm("EditProfilePicture", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <input type="file" name="ImageFile" id="fileupload" required />
+            </div>
+            @Html.HiddenFor(m => m.UserId)
+            <button type="submit">Change DP</button>
+        }
+    </div>
+    <h2>
+        Name: @Model.Name
+        <span>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Edit
+            </button>
+        </span>
+    </h2>
 
+    <div class="collapse" id="collapseExample">
+        @using (Html.BeginForm("EditName", "User", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name)
+
+            </div>
+            @Html.HiddenFor(m => m.UserId)
+            <button type="submit">Change Name</button>
+
+        }
+    </div>
+
+    <h3>
+        Phone:@Model.PhoneNumber
+        <span>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+                Edit
+            </button>
+        </span>
+        <div class="collapse" id="collapseExample2">
+            @using (Html.BeginForm("EditPhone", "User", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PhoneNumber)
+                    @Html.TextBoxFor(m => m.PhoneNumber)
+
+                </div>
+                @Html.HiddenFor(m => m.UserId)
+                <button type="submit">Change Number</button>
+
+            }
         </div>
-        @Html.HiddenFor(m => m.UserId)
-        <button type="submit">Change Name</button>
+    </h3>
+    <h3>
+        @Model.Address
+        <span>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3">
+                Edit
+            </button>
+        </span>
+        <div class="collapse" id="collapseExample3">
+            @using (Html.BeginForm("EditAddress", "User", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
 
-    }
-    <h3>Phone:@Model.PhoneNumber</h3>
-    <p>@Model.UserId</p>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Address)
+                    @Html.TextBoxFor(m => m.Address)
+
+                </div>
+                @Html.HiddenFor(m => m.UserId)
+                <button type="submit">Change Address</button>
+
+            }
+        </div>
+    </h3>
 
 </div>
+@section Scripts{
+    <script>
+
+
+        $(function () {
+            // Multiple images preview in browser
+            var imagesPreview = function (input, placeToInsertImagePreview) {
+
+                if (input.files) {
+                    var filesAmount = input.files.length;
+
+                    for (i = 0; i < filesAmount; i++) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (event) {
+                            $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                        }
+
+                        reader.readAsDataURL(input.files[i]);
+                    }
+                }
+
+            };
+
+           
+            $('#fileupload').on('change', function () {
+                imagesPreview(this, 'div.profile');
+                $("img.img-fluid").hide();
+            });
+        });
+    </script>
+}

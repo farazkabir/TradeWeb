@@ -6,19 +6,29 @@
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-right">
-        <li>
+        @*<li>
             @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
 
+        </li>*@
+        <li>
+            @Html.ActionLink("Edit Profile",
+            "EditUser",  // <-- ActionMethod
+            "User",   // <-- Controller Name.
+            new { id = User.Identity.GetUserId() }, // <-- Route arguments.
+            null  // <-- htmlArguments .. which are none. You need this value
+                  //     otherwise you call the WRONG method ...
+                  //     (refer to comments, below).
+            )
         </li>
         <li>
-                 @Html.ActionLink("Edit Profile",
-                "EditUser",  // <-- ActionMethod
-                "User",   // <-- Controller Name.
-                new { id = User.Identity.GetUserId() }, // <-- Route arguments.
-                null  // <-- htmlArguments .. which are none. You need this value
-                      //     otherwise you call the WRONG method ...
-                      //     (refer to comments, below).
-                )
+            @Html.ActionLink("My Posts",
+            "MyPosts",  // <-- ActionMethod
+            "Post",   // <-- Controller Name.
+            new { id = User.Identity.GetUserId() }, // <-- Route arguments.
+            null  // <-- htmlArguments .. which are none. You need this value
+                  //     otherwise you call the WRONG method ...
+                  //     (refer to comments, below).
+            )
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>

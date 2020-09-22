@@ -11,6 +11,7 @@ namespace TradeWeb.Models
         public string CoverId { get; set; }
         public string CategoryName { get; set; }
         public string PostDescription { get; set; }
+        public string TradeDemands { get; set; }
 
 
         public string UserId { get; set; }

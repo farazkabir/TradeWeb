@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Profile";
+
+}
+@using Microsoft.AspNet.Identity
+@{
+    var thisId = User.Identity.GetUserId();
+    var UId = Model.UserId;
+    var total = 0;
+    var pImagePath = "../../Images/" + Model.FilePath;
+}
+<h2>Profile</h2>
+
+<div>
+    Profile
+</div>
+<div>
+    <img class="img-fluid" style="max-width:300px;" src="@pImagePath" />
+    <p>@Model.Name</p>
+    <p>@Model.PhoneNumber</p>
+    <p>@Model.Address</p>
+</div>
+@if (thisId != UId)
+{
+
+    @Html.Partial("_AddReview", new ViewDataDictionary { { "UserId", Model.UserId } })
+}
+
+
+
+<div>
+
+    <h2>All Reviews</h2>
+    @foreach (var review in Model.Reviews)
+    {
+        var ImagePath = "../../Images/" + review.FilePath;
+        if (review.Type == "REVIEW" && review.SubjectId == UId)
+        {
+            <div class="row" style="width:100%">
+                <div class="col-3">
+                    <img src="@ImagePath" style="max-width:100%" />
+                    <p>@review.WriterName</p>
+                </div>
+                <div>
+                    <p>@review.Content</p>
+                </div>
+
+            </div>
+
+        }
+
+        else
+        {
+            @*<div>No Comments to Show!</div>*@
+
+        }
+    }
+
+</div>
