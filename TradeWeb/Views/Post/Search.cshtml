@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Search";
+
 }
 @model TradeWeb.ViewModels.PostViewModel
 
@@ -9,7 +10,8 @@
 <h2 class="my-3">Search Results:</h2>
 @if (Model.Users == null)
 {
-    @Html.Partial("_AllPosts", Model.AdPost)
+    Model.UserView = false;
+    @Html.Partial("_AllPosts")
 }
 else
 {

@@ -1,11 +1,28 @@
 ﻿
-
 @{
     ViewBag.Title = "Index";
 }
 @{
     var Cover = Model.Post.CoverId;
 }
+
+<style>
+    .d-flex {
+        display: flex;
+    }
+
+    .flex-wrap {
+        flex-wrap: wrap;
+    }
+
+    .order-1 {
+        order: 1;
+    }
+
+    .order-2 {
+        order: 2;
+    }
+</style>
 <h2 class=" p-3" style="margin-top:50px;">Posted By @Model.UserName</h2>
 
 <div class="d-flex flex-wrap">
@@ -14,15 +31,15 @@
         var ImagePath = "../../Images/" + Image.FilePath;
         if (Image.MediaId == Cover)
         {
-            <div class="p-2" style="max-width:90%;">
-                This Is Cover
+            <div class="p-2 order-1" style="width:100%">
+                Cover
                 <img src="@ImagePath" style="max-width:300px;" />
             </div>
         }
 
         else
         {
-            <img src="@ImagePath" style="max-width:300px;" />
+            <img class="order-2" src="@ImagePath" style="max-width:300px;" />
         }
     }
 </div>
@@ -30,5 +47,17 @@
     <h3>Category: @Model.Post.CategoryName</h3>
 
     <p>@Model.Post.PostDescription</p>
-</div>
+    <p>@Model.Post.TradeDemands</p>
 
+</div>
+@Html.Partial("_CommentForm", new ViewDataDictionary { { "PostId", Model.Post.PostId } })
+
+@Html.Partial("~/Views/Post/_AllComments.cshtml")
+@*<div>
+
+    <h2>All comments</h2>
+    @foreach (var c in Model.Comments)
+    {
+        <div><span>@c.UserId</span> @c.Content</div>
+    }
+</div>*@

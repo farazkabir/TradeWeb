@@ -5,6 +5,7 @@
 @{
     // var ImagePath = "../../Images/" + Model.FilePath;
     var UId = User.Identity.GetUserId();
+    Model.UserView = false;
 
 }
 @model TradeWeb.ViewModels.PostViewModel
@@ -15,10 +16,9 @@
 </style>
 
 <div class="jumbotron">
-    <h2 class="text-center">TradeVilla or TradeWeb Whatever!</h2>
+    <h2 class="text-center">TradeVilla</h2>
+   
 </div>
-
-
 
 
 @if (Request.IsAuthenticated)
@@ -32,33 +32,65 @@
     </div>
 
 
-    @Html.Partial("_AllPosts", Model.AdPost)
+    @Html.Partial("_AllPosts") //,Model.AdPost
     @Html.Partial("_AddPostForm")
 
+    @section Scripts{
+        <script>
 
 
-}
+            $(function () {
+                // Multiple images preview in browser
+                var imagesPreview = function (input, placeToInsertImagePreview) {
+
+                    if (input.files) {
+                        var filesAmount = input.files.length;
+
+                        for (i = 0; i < filesAmount; i++) {
+                            var reader = new FileReader();
+
+                            reader.onload = function (event) {
+                                $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                            }
+
+                            reader.readAsDataURL(input.files[i]);
+                        }
+                    }
+
+                };
+
+                $('#gallery-photo-add').on('change', function () {
+                    imagesPreview(this, 'div.gallery');
+                });
+                $('#cover-photo-add').on('change', function () {
+                    imagesPreview(this, 'div.cover');
+                });
+            });
+        </script>
+       }
+
+    }
 
 
-<!--
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>-->
+    <!--
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Getting started</h2>
+            <p>
+                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+                enables a clean separation of concerns and gives you full control over markup
+                for enjoyable, agile development.
+            </p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Get more libraries</h2>
+            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Web Hosting</h2>
+            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        </div>
+    </div>-->

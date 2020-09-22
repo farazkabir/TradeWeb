@@ -1,0 +1,41 @@
+﻿<!-- Modal -->
+@model TradeWeb.Models.Comment
+
+@using Microsoft.AspNet.Identity
+@{
+    // var ImagePath = "../../Images/" + Model.FilePath;
+    var UId = User.Identity.GetUserId();
+    var PId = @ViewBag.PostId;
+
+
+}
+<style>
+</style>
+
+@using (Html.BeginForm("AddComment", "Post" ,FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    /* @Html.DropDownList("Category",
+     new SelectList(Enum.GetValues(typeof(TradeWeb.ViewModels.PostViewModel.CategoryList))),
+     "Select Category",
+     new { @class = "form-control" }) */
+    //   @Html.DropDownList("Category")
+
+    <div class="form-group">
+        <label>Comment Description</label>
+        @Html.TextAreaFor(m => m.Content)
+    </div>
+
+
+
+
+
+
+    @Html.HiddenFor(m => m.UserId, new { @Value = UId })
+    @Html.HiddenFor(m => m.PostId, new { @Value = PId })
+
+    <button type="submit" class="btn btn-default">Upload</button>
+}
+
+
+

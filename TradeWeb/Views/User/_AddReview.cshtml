@@ -1,0 +1,36 @@
+﻿
+
+@using Microsoft.AspNet.Identity
+@model TradeWeb.Models.Review
+@{
+    ViewBag.Title = "Profile";
+    var RId = User.Identity.GetUserId();
+    var UId = @ViewBag.UserId;
+}
+
+
+
+@using (Html.BeginForm("AddReview", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    /* @Html.DropDownList("Category",
+     new SelectList(Enum.GetValues(typeof(TradeWeb.ViewModels.PostViewModel.CategoryList))),
+     "Select Category",
+     new { @class = "form-control" }) */
+    //   @Html.DropDownList("Category")
+
+    <div class="form-group">
+        <label>Review Description</label>
+        @Html.TextAreaFor(m => m.Content)
+    </div>
+
+
+
+
+
+
+    @Html.HiddenFor(m => m.UserId, new { @Value = UId })
+    @Html.HiddenFor(m => m.ReviewerId, new { @Value = RId })
+
+    <button type="submit" class="btn btn-default">Upload</button>
+}

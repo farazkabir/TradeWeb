@@ -1,0 +1,35 @@
+﻿
+@{ 
+    var PostId = Model.Post.PostId;
+    var total = 0;
+}
+    <div>
+
+        <h2>All comments</h2>
+        @foreach (var comment in Model.Comments)
+        {
+            var ImagePath = "../../Images/" + comment.FilePath;
+            if (comment.Type == "COMMENT" && comment.SubjectId == PostId)
+            {
+                <div class="row" style="width:100%">
+                    <div class="col-3">
+                        <img src="@ImagePath" style="max-width:100%" />
+                        <p>@comment.WriterName</p>
+                    </div>
+                    <div>
+                        <p>@comment.Content</p>
+                        <p>@comment.Timestamp</p>
+                    </div>
+
+                </div>
+               
+            }
+
+            else
+            {
+            @*<div>No Comments to Show!</div>*@
+
+        }
+    }
+
+    </div>

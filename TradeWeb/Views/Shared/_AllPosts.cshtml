@@ -1,4 +1,9 @@
-﻿<style>
+﻿@model TradeWeb.ViewModels.PostViewModel
+@{ 
+    var delete = Model.UserView;
+}
+
+<style>
     .card {
         position: relative;
         display: -ms-flexbox;
@@ -11,6 +16,11 @@
         background-clip: border-box;
         border: 1px solid rgba(0,0,0,.125);
         border-radius: .25rem;
+        height:400px;
+    }
+    .card img{
+        max-height:300px;
+        object-fit:cover;
     }
 
     .card-img-top {
@@ -19,15 +29,16 @@
         border-top-right-radius: calc(.25rem - 1px);
     }
 </style>
-<div>
-    @foreach (var Post in Model)
+<div class="row">
+    @foreach (var Post in Model.AdPost)
     {
         var ImagePath = "../../Images/" + Post.FilePath;
-
-        <div class="card" style="text-align:center;max-width:75%;margin:auto;margin-bottom:30px;padding-bottom:30px;">
+    <div class="col-md-6">
+        <div class="card" style="text-align:center;max-width:100%;margin:auto;margin-bottom:30px;padding-bottom:30px;">
             <img src="@ImagePath" class="card-img-top" />
             <p>Owner Name: @Post.UserName</p>
             <p>@Post.Description</p>
+            <p>@Post.TradeDemands</p>
             @Html.ActionLink("View Post",
             "Index",   // <-- ActionMethod
                              "Post", // <-- Controller Name.
@@ -36,8 +47,18 @@
                           //     otherwise you call the WRONG method ...
                           //     (refer to comments, below).
                     )
-
+            @if (delete == true)
+            {
+                @Html.ActionLink("Delete", // <-- Link text
+                     "DeletePost", // <-- Action Method Name
+                     "Post", // <-- Controller Name
+                     new { id = Post.PostId }, // <-- Route value
+                     new { @class = "ui-btn" } // <-- htmlArguments
+                     )
+            }
         </div>
+       
+    </div>
 
     }
 </div>
