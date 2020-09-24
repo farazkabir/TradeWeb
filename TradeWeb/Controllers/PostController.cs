@@ -23,9 +23,9 @@ namespace TradeWeb.Controllers
         {
             _context.Dispose();
         }
-   
+
         [HttpPost]
-        
+        [Authorize]
         public ActionResult Search(FormCollection form)
         {
             string SearchQuery = form["Search"];
@@ -34,12 +34,12 @@ namespace TradeWeb.Controllers
             if (!IsUser)
             {
                 var SearchedPosts = _context.Post
-                    .Where(p => p.CategoryName.Contains(SearchQuery) 
+                    .Where(p => p.CategoryName.Contains(SearchQuery)
                             || p.PostDescription.Contains(SearchQuery))
                     .Join(_context.Media,
                                    post => post.PostId,
                                    media => media.PostId,
-                                   ( post,media) => new AdPostViewModel
+                                   (post, media) => new AdPostViewModel
                                    {
                                        PostId = post.PostId,
                                        MediaId = media.MediaId,
@@ -48,9 +48,12 @@ namespace TradeWeb.Controllers
                                        UserName = _context.Users.FirstOrDefault(u => u.UserId == post.UserId).Name,
                                        FilePath = media.FilePath,
                                        Description = post.PostDescription,
-                                       TradeDemands = post.TradeDemands
+                                       TradeDemands = post.TradeDemands,
+                                       Timestamp = post.Timestamp.ToString(),
+                                       PostTitle= post.PostTitle
+
                                    }
-                               ).Where(m => m.CoverId == m.MediaId);
+                               ).Where(m => m.CoverId == m.MediaId).OrderByDescending(s => s.Timestamp); ;
                
 
                 PM.AdPost = SearchedPosts.ToList();
@@ -91,15 +94,15 @@ namespace TradeWeb.Controllers
                                        FilePath = media.FilePath,
                                       
                                    }
-                               ) ;
+                               ).OrderBy(m=>m.Name) ;
             PM.Users = result.ToList();
             // string country = form["Country"];
             return View(PM);
         }
         // GET: Post
+        [Authorize]
         public ActionResult Index(string id )
         {
-         
             var Post = _context.Post.SingleOrDefault(p => p.PostId == id);
             var Media = _context.Media.Where(m => m.PostId == id);
             var User = _context.Users.SingleOrDefault(u => u.UserId == Post.UserId);
@@ -133,7 +136,7 @@ namespace TradeWeb.Controllers
                                        Timestamp=comment.Timestamp.ToString(),
                                        Type = "COMMENT"
                                    }
-                               );
+                               ).OrderByDescending(m=>m.Timestamp);
             Console.WriteLine("rendered");
             SinglePost.Comments = comments.ToList();
 
@@ -143,6 +146,7 @@ namespace TradeWeb.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult AddComment(Comment Comment)
         {
             string PostId;
@@ -172,6 +176,7 @@ namespace TradeWeb.Controllers
             return RedirectToAction("Index",  // <-- ActionMethod
                "Post", new { id = PostId });
         }
+        [Authorize]
         public ActionResult MyPosts(string id)
         {
 
@@ -187,12 +192,15 @@ namespace TradeWeb.Controllers
                                        MediaId = media.MediaId,
                                        CoverId = post.CoverId,
                                        UserId = post.UserId,
+                                       PostTitle = post.PostTitle,
+                                       Timestamp = post.Timestamp.ToString(),
                                        UserName = _context.Users.FirstOrDefault(u => u.UserId == post.UserId).Name,
+                                       UserDp = _context.Media.FirstOrDefault(m => m.MediaId == (_context.Users.FirstOrDefault(u => u.UserId == post.UserId).MediaId)).FilePath,
                                        FilePath = media.FilePath,
                                        Description = post.PostDescription,
                                        TradeDemands = post.TradeDemands
                                    }
-                               ).Where(m => m.CoverId == m.MediaId).Where(u=> u.UserId == id);
+                               ).Where(m => m.CoverId == m.MediaId).Where(u=> u.UserId == id).OrderByDescending(m=> m.Timestamp);
 
 
             PM.AdPost = a.ToList();
@@ -201,7 +209,7 @@ namespace TradeWeb.Controllers
             return View(PM);
             
         }
-
+        [Authorize]
         public ActionResult DeletePost(string id)
         {
             var itemToRemove = _context.Post.SingleOrDefault(p => p.PostId == id); //returns a single item.

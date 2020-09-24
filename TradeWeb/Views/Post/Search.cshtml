@@ -5,9 +5,16 @@
 }
 @model TradeWeb.ViewModels.PostViewModel
 
-
+<style>
+    .search-form {
+        position: static !important;
+        margin-top: 6rem;
+        left: 0 !important;
+        transform: translate(0);
+    }
+</style>
 @Html.Partial("_SearchBox")
-<h2 class="my-3">Search Results:</h2>
+<h2 class="container my-3">Search Results:</h2>
 @if (Model.Users == null)
 {
     Model.UserView = false;

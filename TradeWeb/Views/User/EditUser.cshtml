@@ -4,98 +4,128 @@
     ViewBag.Title = "EditUser";
 }
 
-<h2>EditUser</h2>
+
 @{
     var ImagePath = "../../Images/" + Model.FilePath;
     var UId = Model.UserId;
 
 }
-<div>
-    <img class="img-fluid" style="max-width:300px;" src="@ImagePath" />
-    <div class="profile"></div>
-    <div>
+<style>
+   .container h5 span{
+        float:right;
+        
+    }
+    .container h5 {
+        border-bottom: 2px solid rgba(0,0,0,0.05);
+        line-height: 2;
+        margin-bottom: 3rem;
+    }
+    .btn-link {
+        border: none;
+        background: white;
+        font-size: 2.4rem;
+        color:#6699ee;
+    
+    }
+    .color1-btn{
+        margin-bottom:2rem;
+    }
+    .footer h5{
+        border:none !important;
+    }
+    .img-fluid{
+       max-width:300px;
+    }
+</style>
+<div class="container">
+    <h2 class="col my-5">Edit your profile</h2>
+    <div class="col-md-10">
+        <img class="img-fluid" style="max-width:300px;" src="@ImagePath" />
+        <div class="profile"></div>
+        <div>
 
-        @using (Html.BeginForm("EditProfilePicture", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
-            <div class="form-group">
-                <input type="file" name="ImageFile" id="fileupload" required />
-            </div>
-            @Html.HiddenFor(m => m.UserId)
-            <button type="submit">Change DP</button>
-        }
-    </div>
-    <h2>
-        Name: @Model.Name
-        <span>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                Edit
-            </button>
-        </span>
-    </h2>
+            @using (Html.BeginForm("EditProfilePicture", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <input type="file" name="ImageFile" id="fileupload" required />
+                </div>
+                @Html.HiddenFor(m => m.UserId)
+                <button class="color1-btn" type="submit">Change Profile Picture</button>
+            }
+        </div>
+        <h5>
+            Name: @Model.Name
+            <span>
+                <button class="btn-link" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Edit
+                </button>
+            </span>
+        </h5>
 
-    <div class="collapse" id="collapseExample">
-        @using (Html.BeginForm("EditName", "User", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.Name)
-                @Html.TextBoxFor(m => m.Name)
-
-            </div>
-            @Html.HiddenFor(m => m.UserId)
-            <button type="submit">Change Name</button>
-
-        }
-    </div>
-
-    <h3>
-        Phone:@Model.PhoneNumber
-        <span>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
-                Edit
-            </button>
-        </span>
-        <div class="collapse" id="collapseExample2">
-            @using (Html.BeginForm("EditPhone", "User", FormMethod.Post))
+        <div class="collapse" id="collapseExample">
+            @using (Html.BeginForm("EditName", "User", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.PhoneNumber)
-                    @Html.TextBoxFor(m => m.PhoneNumber)
+                    @Html.LabelFor(m => m.Name)
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
 
                 </div>
                 @Html.HiddenFor(m => m.UserId)
-                <button type="submit">Change Number</button>
+                <button class="color1-btn" type="submit">Change Name</button>
 
             }
         </div>
-    </h3>
-    <h3>
-        @Model.Address
-        <span>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3">
-                Edit
-            </button>
-        </span>
-        <div class="collapse" id="collapseExample3">
-            @using (Html.BeginForm("EditAddress", "User", FormMethod.Post))
-            {
-                @Html.AntiForgeryToken()
 
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Address)
-                    @Html.TextBoxFor(m => m.Address)
+        <h5>
+            Phone: @Model.PhoneNumber
+            <span>
+                <button class=" btn-link" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+                    Edit
+                </button>
+            </span>
+            <div class="collapse" id="collapseExample2">
+                @using (Html.BeginForm("EditPhone", "User", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
 
-                </div>
-                @Html.HiddenFor(m => m.UserId)
-                <button type="submit">Change Address</button>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PhoneNumber)
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
 
-            }
-        </div>
-    </h3>
+                    </div>
+                    @Html.HiddenFor(m => m.UserId)
+                    <button class="color1-btn " type="submit">Change Number</button>
+
+                }
+            </div>
+        </h5>
+        <h5>
+            Address: @Model.Address
+            <span>
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3">
+                    Edit
+                </button>
+            </span>
+            <div class="collapse mb-5" id="collapseExample3">
+                @using (Html.BeginForm("EditAddress", "User", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Address)
+                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+
+                    </div>
+                    @Html.HiddenFor(m => m.UserId)
+                    <button class="color1-btn" type="submit">Change Address</button>
+
+                }
+            </div>
+        </h5>
+    </div>
 
 </div>
 @section Scripts{
@@ -113,7 +143,7 @@
                         var reader = new FileReader();
 
                         reader.onload = function (event) {
-                            $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                            $($.parseHTML('<img class="img-fluid">')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
                         }
 
                         reader.readAsDataURL(input.files[i]);

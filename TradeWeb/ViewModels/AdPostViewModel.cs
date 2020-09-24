@@ -18,8 +18,11 @@ namespace TradeWeb.ViewModels
         public string TradeDemands { get; set; }
 
         public string PostId { get; set; }
+       
+        public string PostTitle { get; set; }
+        public string UserDp { get; set; }
         public string UserName { get; set; }
-      
+        public string Timestamp { get; set; }
         public string UserId { get; set; }
 
     }
