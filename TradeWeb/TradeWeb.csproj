@@ -237,6 +237,10 @@
     <Compile Include="Migrations\202009160058089_Review.Designer.cs">
       <DependentUpon>202009160058089_Review.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009221445011_dbDatabase.cs" />
+    <Compile Include="Migrations\202009221445011_dbDatabase.Designer.cs">
+      <DependentUpon>202009221445011_dbDatabase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -583,6 +587,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009160058089_Review.resx">
       <DependentUpon>202009160058089_Review.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009221445011_dbDatabase.resx">
+      <DependentUpon>202009221445011_dbDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

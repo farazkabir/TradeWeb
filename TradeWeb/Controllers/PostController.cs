@@ -95,7 +95,7 @@ namespace TradeWeb.Controllers
             // string country = form["Country"];
             return View(PM);
         }
-        // GET: Post
+        // GET: Post????
         public ActionResult Index(string id )
         {
             var Post = _context.Post.SingleOrDefault(p => p.PostId == id);
