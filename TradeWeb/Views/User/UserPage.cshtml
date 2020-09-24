@@ -21,7 +21,7 @@
             @using (Html.BeginForm("CreateUser", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
-                <h2 class="text-center my-5">
+                <h2 class="text-center my-5 pt-5">
                     Set your profile
                 </h2>
                 @Html.ValidationSummary("", new { @class = "text-danger" })
