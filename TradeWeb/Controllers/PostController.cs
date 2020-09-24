@@ -23,8 +23,9 @@ namespace TradeWeb.Controllers
         {
             _context.Dispose();
         }
-
+   
         [HttpPost]
+        
         public ActionResult Search(FormCollection form)
         {
             string SearchQuery = form["Search"];
@@ -98,6 +99,7 @@ namespace TradeWeb.Controllers
         // GET: Post
         public ActionResult Index(string id )
         {
+         
             var Post = _context.Post.SingleOrDefault(p => p.PostId == id);
             var Media = _context.Media.Where(m => m.PostId == id);
             var User = _context.Users.SingleOrDefault(u => u.UserId == Post.UserId);
