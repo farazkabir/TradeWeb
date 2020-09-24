@@ -27,7 +27,7 @@ namespace TradeWeb.Controllers
             // ViewBag.Posts = _context.Post.ToList();
 
             PostViewModel PM = new PostViewModel();
-            var a= _context.Media
+            var a = _context.Media
                                .Join(
                                    _context.Post,
                                    media => media.PostId,
@@ -38,13 +38,16 @@ namespace TradeWeb.Controllers
                                        MediaId = media.MediaId,
                                        CoverId = post.CoverId,
                                        UserId = post.UserId,
-                                       UserName = _context.Users.FirstOrDefault(u=> u.UserId == post.UserId).Name,
+                                       UserName = _context.Users.FirstOrDefault(u => u.UserId == post.UserId).Name,
                                        FilePath = media.FilePath,
+                                       UserDp = _context.Media.FirstOrDefault(m => m.MediaId == (_context.Users.FirstOrDefault(u => u.UserId == post.UserId).MediaId)).FilePath,
                                        Description = post.PostDescription,
-                                       TradeDemands= post.TradeDemands
+                                       TradeDemands = post.TradeDemands,
+                                       Timestamp = post.Timestamp.ToString(),
+                                       PostTitle = post.PostTitle
                                    }
-                               ).Where(m=> m.CoverId == m.MediaId);
-               Console.WriteLine("rendered");
+                               ).Where(m=> m.CoverId == m.MediaId).OrderByDescending(m => m.Timestamp);
+            Console.WriteLine("rendered");
             //  return PartialView(Posts);
             /*  PostViewModel PM = new PostViewModel();
  PM.Posts = _context.Post.ToList();

@@ -9,39 +9,77 @@
     var total = 0;
     var pImagePath = "../../Images/" + Model.FilePath;
 }
-<h2>Profile</h2>
 
-<div>
-    Profile
+<style>
+    .profile-image{
+        border:5px solid #6699ee;
+        border-radius:100%;
+        padding:1.75rem;
+        height:300px;
+        width:300px;
+
+
+    }
+        .profile-image img {
+            height: 100%;
+            width: 100%;
+            border-radius: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        .rounded-card{
+            border-radius:2.5rem;
+        }
+</style>
+<div class="container">
+    <div class="row my-5 py-4 rounded-card justify-content-center shadow">
+        <div class="col flex-grow-0 py-0 pr-0 ">
+
+            <div class="profile-image">
+                <img class="" src="@pImagePath" />
+            </div>
+
+        </div>
+        <div class="col align-self-center px-5">
+
+            <h3 class="text-center color2 text-uppercase text-md-left">@Model.Name</h3>
+            <h4 class="text-center text-md-left color2 bold1">Phone Number: @Model.PhoneNumber</h4>
+            <h4 class="text-center text-md-left color2 bold1">Address: @Model.Address</h4>
+        </div>
+
+    </div>
 </div>
-<div>
-    <img class="img-fluid" style="max-width:300px;" src="@pImagePath" />
-    <p>@Model.Name</p>
-    <p>@Model.PhoneNumber</p>
-    <p>@Model.Address</p>
-</div>
+
+
 @if (thisId != UId)
 {
-
+<div class="container">
     @Html.Partial("_AddReview", new ViewDataDictionary { { "UserId", Model.UserId } })
+
+</div>
 }
 
 
 
-<div>
+<div class="container">
 
-    <h2>All Reviews</h2>
+    <h2 class="my-5 py-3 ">All Reviews</h2>
     @foreach (var review in Model.Reviews)
     {
         var ImagePath = "../../Images/" + review.FilePath;
         if (review.Type == "REVIEW" && review.SubjectId == UId)
         {
-            <div class="row" style="width:100%">
-                <div class="col-3">
-                    <img src="@ImagePath" style="max-width:100%" />
-                    <p>@review.WriterName</p>
-                </div>
-                <div>
+            <div class=" row m-0 mb-5 py-4 feedback-box" style="width:100%">
+                <div class="col flex-grow-0">
+                    <a href="@Url.Action(
+                    "UserProfile",   // <-- ActionMethod
+                                     "User", // <-- Controller Name.
+                            new { id = review.WriterId} // <-- Route arguments.
+                            )">
+                        <img src="@ImagePath" style="max-width:100%" /></a>
+                        <p>@review.WriterName</p>
+</div>
+                <div class="col align-self-center">
                     <p>@review.Content</p>
                 </div>
 

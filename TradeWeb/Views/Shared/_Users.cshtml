@@ -11,7 +11,8 @@
         background-color: #fff;
         background-clip: border-box;
         border: 1px solid rgba(0,0,0,.125);
-        border-radius: .25rem;
+        border-radius: 1rem;
+        overflow:hidden;
     }
     .card-body {
         -ms-flex: 1 1 auto;
@@ -23,24 +24,42 @@
         border-top-left-radius: calc(.25rem - 1px);
         border-top-right-radius: calc(.25rem - 1px);
     }
+    .card img{
+        max-width:100%;
+        object-fit:cover;
+        object-position:center;
+        height:300px;
+    }
 </style>
-@foreach (var User in Model)
-{
-    var ImagePath = "../../Images/" + User.FilePath;
+<div class="container">
+    <div class="row justify-content-center" >
+        @foreach (var User in Model)
+        {
+            var ImagePath = "../../Images/" + User.FilePath;
+            <div class="col-md-4">
+                <div class="card shadow mb-5" >
+                    <img src="@ImagePath" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h4 class="card-text">@User.Name</h4>
+                    </div>
+                    <div class="p-3 text-center">
+                        @Html.ActionLink("View Profile",
+                     "UserProfile",  // <-- ActionMethod
+                     "User",   // <-- Controller Name.
+                     new { id = User.UserId }, // <-- Route arguments.
+                     null  // <-- htmlArguments .. which are none. You need this value
+                           //     otherwise you call the WRONG method ...
+                           //     (refer to comments, below).
+                     )
+                    </div>
+                   
 
-<div class="card" style="width: 18rem;">
-    <img src="@ImagePath" class="card-img-top" alt="...">
-    <div class="card-body">
-        <h4 class="card-text">@User.Name</h4>
+                </div>
+            </div>
+
+
+
+        }
     </div>
-    @Html.ActionLink("My Profile",
-      "UserProfile",  // <-- ActionMethod
-      "User",   // <-- Controller Name.
-      new { id = User.UserId }, // <-- Route arguments.
-      null  // <-- htmlArguments .. which are none. You need this value
-            //     otherwise you call the WRONG method ...
-            //     (refer to comments, below).
-      )
-</div>
 
-}
+</div>

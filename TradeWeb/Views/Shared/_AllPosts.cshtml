@@ -4,61 +4,111 @@
 }
 
 <style>
-    .card {
-        position: relative;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #fff;
-        background-clip: border-box;
-        border: 1px solid rgba(0,0,0,.125);
-        border-radius: .25rem;
-        height:400px;
+    .post-img{
+      height:350px;
+      overflow:hidden;
     }
-    .card img{
-        max-height:300px;
+    .post-card {
+        margin-bottom: 2rem;
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+    .post-img img{
+        height:100%;
+        width:100%;
         object-fit:cover;
+        object-position:center;
+        transition:transform 0.5s ease;
     }
-
-    .card-img-top {
-        width: 100%;
-        border-top-left-radius: calc(.25rem - 1px);
-        border-top-right-radius: calc(.25rem - 1px);
+    .post-card>div{
+        flex:1 1 auto;
+    }
+    .post-content{
+       
+        padding:1.5rem;
+    }
+    .profile-img{
+        height:60px;
+        width:60px;
+        border-radius:100%;
+        object-fit:cover;
+        object-position:center;
+    }
+    .post-footer {
+        padding: 1.5rem;
+        display: flex;
+        justify-content: center;
+    }
+    .post-footer a{
+        font-size: 2rem;
+        color: #6699EE !important;
+        padding:0 1rem;
+    }
+    .post-img:hover img{
+        transform:scale(1.1);
+    }
+    .text-over{
+        text-overflow:ellipsis;
+        overflow:hidden;
+        height:4rem;
     }
 </style>
-<div class="row">
-    @foreach (var Post in Model.AdPost)
-    {
-        var ImagePath = "../../Images/" + Post.FilePath;
-    <div class="col-md-6">
-        <div class="card" style="text-align:center;max-width:100%;margin:auto;margin-bottom:30px;padding-bottom:30px;">
-            <img src="@ImagePath" class="card-img-top" />
-            <p>Owner Name: @Post.UserName</p>
-            <p>@Post.Description</p>
-            <p>@Post.TradeDemands</p>
-            @Html.ActionLink("View Post",
-            "Index",   // <-- ActionMethod
-                             "Post", // <-- Controller Name.
-                    new { id = Post.PostId }, // <-- Route arguments.
-                    null  // <-- htmlArguments .. which are none. You need this value
-                          //     otherwise you call the WRONG method ...
-                          //     (refer to comments, below).
-                    )
-            @if (delete == true)
-            {
-                @Html.ActionLink("Delete", // <-- Link text
-                     "DeletePost", // <-- Action Method Name
-                     "Post", // <-- Controller Name
-                     new { id = Post.PostId }, // <-- Route value
-                     new { @class = "ui-btn" } // <-- htmlArguments
-                     )
-            }
-        </div>
-       
+<div class="container">
+    <div class="row">
+        @foreach (var Post in Model.AdPost)
+        {
+            var ImagePath = "../../Images/" + Post.FilePath;
+            var dp = "../../Images/" + Post.UserDp;
+            <div class="col-md-6">
+                <div class="card post-card shadow-sm">
+                    <div class="post-img">
+                        <a href="@Url.Action(
+                    "Index",   // <-- ActionMethod
+                                     "Post", // <-- Controller Name.
+                            new { id = Post.PostId } // <-- Route arguments.
+                            )">  <img src="@ImagePath" /></a>
+                    </div>
+                    
+                    <div class="post-content pb-0">
+                        <h4 class="col text-over my-4">@Post.PostTitle</h4>
+
+
+                        <!--<p>@Post.Timestamp</p>-->
+                        <div class="row align-items-center mx-0 border-bottom pb-4">
+                            <div class="col flex-grow-0">
+                                <img src="@dp" class="profile-img" />
+
+                            </div>
+
+                            <h5 class="col">Posted By @Post.UserName</h5>
+                        </div>
+                    </div>
+                    <div class="post-footer">
+                        @Html.ActionLink("View Post",
+                    "Index",   // <-- ActionMethod
+                                     "Post", // <-- Controller Name.
+                            new { id = Post.PostId }, // <-- Route arguments.
+                            null  // <-- htmlArguments .. which are none. You need this value
+                                  //     otherwise you call the WRONG method ...
+                                  //     (refer to comments, below).
+                            )
+                        @if (delete == true)
+                        {
+                            @Html.ActionLink("Delete", // <-- Link text
+                                 "DeletePost", // <-- Action Method Name
+                                 "Post", // <-- Controller Name
+                                 new { id = Post.PostId }, // <-- Route value
+                                 new { @class = "ui-btn" } // <-- htmlArguments
+                                 )
+                        }
+                    </div>
+
+                   
+                </div>
+
+            </div>
+
+        }
     </div>
 
-    }
 </div>

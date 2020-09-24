@@ -17,10 +17,12 @@ namespace TradeWeb.ViewModels
        // public Media Media { get; set; 
         public string UserId { get; set; }
         public string MediaId { get; set; }
+        [Required]     
         public string Name { get; set; }
+        [Required]
         public int PhoneNumber { get; set; }
         public string Address { get; set; }
-        public int Id { get; set; }
+   //     public int Id { get; set; }
         public string FilePath { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
 

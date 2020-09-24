@@ -3,26 +3,43 @@
 @{
     ViewBag.Title = "Log in";
 }
+    <style>
+        nav {
+            display: none !important;
+        }
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
+        .mh-100 {
+            min-height: 100vh;
+        }
+        .color3 a {
+            color: #4B61C4
+        }
+
+        body {
+            padding-top: 0px !important;
+        }
+
+    </style>
+
+
+<div class="row mbl-reverse fullscreen align-items-stretch" >
+    <div class="col-md-5 align-self-center" data-aos="fade-right">
+        <section id="loginForm" class="p-5">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
+                <h4 class="mt-5" >Sign In </h4>
+                <hr class="mb-5" />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                    @Html.LabelFor(m => m.Email, new { @class = "col control-label" })
                     <div class="col-md-10">
                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    @Html.LabelFor(m => m.Password, new { @class = "col control-label" })
                     <div class="col-md-10">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
@@ -38,10 +55,10 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
+                        <input type="submit" value="Sign In" class="color2-btn" />
                     </div>
                 </div>
-                <p>
+                <p class="color3 col mt-5">
                     @Html.ActionLink("Register as a new user", "Register")
                 </p>
                 @* Enable this once you have account confirmation enabled for password reset functionality
@@ -51,13 +68,51 @@
             }
         </section>
     </div>
-    <div class="col-md-4">
-        @*<section id="socialloginform">
-            @html.partial("_externalloginslistpartial", new externalloginlistviewmodel { returnurl = viewbag.returnurl })
-        </section>*@
+    <!-- <div class="col-md-4">
+         @*<section id="socialloginform">
+                     @html.partial("_externalloginslistpartial", new externalloginlistviewmodel { returnurl = viewbag.returnurl })
+                 </section>
+         </div>*@-->
+    <div class="col-md-7 color3-overlay d-flex align-items-center bg-regular  opacity-50" data-aos="fade-left" style="min-height:300px;background-image:url(https://picsum.photos/1920/1280)">
+        <div class="position-relative p-5">
+            <h2 class="text-white display-1">Hello!</h2>
+            <h4 class="text-white">Sign in to your account.</h4>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        jQuery.validator.setDefaults({
+            onfocusout: function (e) {
+                this.element(e);
+            },
+            //onkeyup: false,
+            highlight: function (element) {
+                jQuery(element).closest('.form-control').addClass('is-invalid');
+            },
+            unhighlight: function (element) {
+                jQuery(element).closest('.form-control').removeClass('is-invalid');
+                jQuery(element).closest('.form-control').addClass('is-valid');
+            },
+
+            errorElement: 'div',
+            errorClass: 'invalid-feedback',
+            errorPlacement: function (error, element) {
+                if (element.parent('.input-group-prepend').length) {
+                    $(element).siblings(".invalid-feedback").append(error);
+                    //error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+        });
+
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 600 });
+    </script>
 }
