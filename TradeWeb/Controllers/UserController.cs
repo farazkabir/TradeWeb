@@ -265,7 +265,7 @@ namespace TradeWeb.Controllers
                "Home");
         }
 
-
+        [Authorize]
         public ActionResult UserProfile(string id)
         {
             var Profile = new ProfileViewModel();
