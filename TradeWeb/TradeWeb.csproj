@@ -237,6 +237,14 @@
     <Compile Include="Migrations\202009160058089_Review.Designer.cs">
       <DependentUpon>202009160058089_Review.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009231651334_namerequired.cs" />
+    <Compile Include="Migrations\202009231651334_namerequired.Designer.cs">
+      <DependentUpon>202009231651334_namerequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009232103228_postmodify.cs" />
+    <Compile Include="Migrations\202009232103228_postmodify.Designer.cs">
+      <DependentUpon>202009232103228_postmodify.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -532,6 +540,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
+    <Folder Include="Video\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -583,6 +592,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009160058089_Review.resx">
       <DependentUpon>202009160058089_Review.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009231651334_namerequired.resx">
+      <DependentUpon>202009231651334_namerequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009232103228_postmodify.resx">
+      <DependentUpon>202009232103228_postmodify.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

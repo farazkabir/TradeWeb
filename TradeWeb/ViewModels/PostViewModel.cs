@@ -18,7 +18,11 @@ namespace TradeWeb.ViewModels
        
         public string UserId { get; set; }
         public string PostDescription { get; set; }
+       [Required(ErrorMessage = "You must add a post title")]
+        public string PostTitle { get; set; }
         public string TradeDemands { get; set; }
+        public string Timestamp { get; set; }
+        public string UserDp { get; set; }
         public bool UserView { get; set; }
         public HttpPostedFileBase Cover { get; set; }
         [Required(ErrorMessage = "Please select file.")]

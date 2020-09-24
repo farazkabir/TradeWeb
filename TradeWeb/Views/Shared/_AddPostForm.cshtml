@@ -6,80 +6,159 @@
     // var ImagePath = "../../Images/" + Model.FilePath;
     var UId = User.Identity.GetUserId();
     List<SelectListItem> items = new List<SelectListItem>();
+    items.Add(new SelectListItem { Text = "Accessories", Value = "Accessories", Selected = true });
 
     items.Add(new SelectListItem { Text = "Books", Value = "Books" });
+    items.Add(new SelectListItem { Text = "Household Items", Value = "Books" });
+
 
     items.Add(new SelectListItem { Text = "Sports Material", Value = "Sports Material" });
+    items.Add(new SelectListItem { Text = "Toys", Value = "Books" });
+    items.Add(new SelectListItem { Text = "Miscellaneous", Value = "Miscellaneous" });
 
-    items.Add(new SelectListItem { Text = "Accessories", Value = "Accessories", Selected = true });
+
     ViewBag.Category = items;
 
 
 
 }
 <style>
-    .cover img, .gallery img{
-        max-width:150px;
-        height:auto;
+    .cover img, .gallery img {
+        max-width: 150px;
+        height: 150px;
+        padding:1rem;
+        object-fit:contain;
     }
+    .gallery {
+        max-width: 90%;
+        overflow-x: auto;
+       
+        display: flex;
+    }
+    label{
+        font-weight:600;
+        font-size:1.8rem;
+    }
+    .close{
+        position:absolute;
+        right:1.5rem;
+
+    }
+    #PostTitle-error{
+        color:red;
+    }
+
 </style>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Post</h5>
+                <h5 class="modal-title color1 text-center w-100 bold2" id="exampleModalLabel">Add Your Post</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">Close &times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-5">
                 @using (Html.BeginForm("AddPost", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
+                    @Html.AntiForgeryToken()
+
+                 
 
                     /* @Html.DropDownList("Category",
                      new SelectList(Enum.GetValues(typeof(TradeWeb.ViewModels.PostViewModel.CategoryList))),
                      "Select Category",
                      new { @class = "form-control" }) */
                     //   @Html.DropDownList("Category")
+                <div class="form-group">
+                    <label>Select a product category</label>
                     @Html.DropDownListFor(m => m.CategoryName, (IEnumerable<SelectListItem>)ViewBag.Category, "Choose Category:", new { @class = "form-control" })
 
+                </div>
+
+                <div class="form-group">
+                    <label>Post Title</label>
+                    @Html.TextBoxFor(m => m.PostTitle, new { placeholder = "Write a short title", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.PostTitle)
+                </div>
 
                     <div class="form-group">
                         <label>Description</label>
-                        @Html.TextAreaFor(m => m.PostDescription)
+                        @Html.TextAreaFor(m => m.PostDescription, new { placeholder = "Write product description",  @class = "form-control" })
                     </div>
                     <div class="form-group">
                         <label>Trade Demands:</label>
-                        @Html.TextAreaFor(m => m.TradeDemands)
+                        @Html.TextAreaFor(m => m.TradeDemands, new { placeholder = "Write what you want in exchange",  @class = "form-control" })
                     </div>
 
                     <div class="cover" style="max-width:600px"></div>
                     <div id="single">
-                        <label>Upload Cover</label>
-                        <input type="file" id="cover-photo-add" name="Cover" /><br />
+                        <label class="w-100 my-3">Upload a cover image</label>
+                        <input type="file" id="cover-photo-add" name="Cover" required /><br />
+                        <p class="mb-2">Max File Size 2MB</p>
+                        <span class="field-validation-error text-danger"
+                              data-valmsg-for="Cover"
+                              data-valmsg-replace="true"></span>
 
                     </div>
-                    <div class="gallery" style="max-width:600px"></div>
+                    <div class="gallery"></div>
                     <div id="multiple">
-                        <label>Upload product images</label>
-                        <input type="file" name="files" multiple id="gallery-photo-add" />
+                        <label class="w-100 my-3">Upload all product images</label>
+                        <input type="file" name="files" multiple id="gallery-photo-add" required />
+                        <p class="mb-2">Max File Size 2MB</p>
+                        <span class="field-validation-error text-danger"
+                              data-valmsg-for="Cover"
+                              data-valmsg-replace="true"></span>
                     </div>
 
 
 
 
                     @Html.HiddenFor(m => m.UserId, new { @Value = UId })
-                    <button type="submit" class="btn btn-default">Upload</button>
-                }
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="text-center">
+                <button type="submit" class="color1-btn">Upload Post</button>
 
             </div>
+                }
+            </div>
+            @*<div class="modal-footer">
+                <button type="button" class="color1-btn" data-dismiss="modal">Close</button>
+
+            </div>*@
         </div>
     </div>
 </div>
 
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        jQuery.validator.setDefaults({
+            onfocusout: function (e) {
+                this.element(e);
+            },
+            //onkeyup: false,
+            highlight: function (element) {
+                jQuery(element).closest('.form-control').addClass('is-invalid');
+            },
+            unhighlight: function (element) {
+                jQuery(element).closest('.form-control').removeClass('is-invalid');
+                jQuery(element).closest('.form-control').addClass('is-valid');
+            },
+
+            errorElement: 'div',
+            errorClass: 'invalid-feedback',
+            errorPlacement: function (error, element) {
+                if (element.parent('.input-group-prepend').length) {
+                    $(element).siblings(".invalid-feedback").append(error);
+                    //error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+        });
+
+    </script>
+   }
 

@@ -3,22 +3,38 @@
     var PostId = Model.Post.PostId;
     var total = 0;
 }
+<style>
+    .profile-img{
+        width:90px;
+        height:90px;
+        object-fit:cover;
+        object-position:center;
+        padding:1rem;
+        border-radius:100%;
+    }
+</style>
     <div>
 
-        <h2>All comments</h2>
+        <h2 class="my-5 py-4">All Comments</h2>
         @foreach (var comment in Model.Comments)
         {
             var ImagePath = "../../Images/" + comment.FilePath;
             if (comment.Type == "COMMENT" && comment.SubjectId == PostId)
             {
-                <div class="row" style="width:100%">
-                    <div class="col-3">
-                        <img src="@ImagePath" style="max-width:100%" />
-                        <p>@comment.WriterName</p>
+                <div class="row m-0 mb-5 py-4 feedback-box" style="width:100%">
+                    <div class="col flex-grow-0">
+                        <a href="@Url.Action(
+                    "UserProfile",   // <-- ActionMethod
+                                     "User", // <-- Controller Name.
+                            new { id = comment.WriterId } // <-- Route arguments.
+                            )">
+                            <img class="profile-img" src="@ImagePath" />
+                            </a>
+                            <h4 class="text-center bold1">@comment.WriterName</h4>
                     </div>
-                    <div>
-                        <p>@comment.Content</p>
-                        <p>@comment.Timestamp</p>
+                    <div class="col align-self-center">
+                        <h5>@comment.Content</h5>
+                        <p style="color:#707070">@comment.Timestamp</p>
                     </div>
 
                 </div>

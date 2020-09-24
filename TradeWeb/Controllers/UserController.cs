@@ -30,6 +30,7 @@ namespace TradeWeb.Controllers
             var Users = _context.Users.SingleOrDefault(u => u.UserId == id.ToString());
             return View();
         }
+        [Authorize]
         public ActionResult UserPage(string id)
           
         {
@@ -40,50 +41,54 @@ namespace TradeWeb.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult CreateUser(UserxViewModel User)
         {
+            if (ModelState.IsValid)
+            {
+                //Use Namespace called :  System.IO  
+                string FileName = Path.GetFileNameWithoutExtension(User.ImageFile.FileName);
 
-            //Use Namespace called :  System.IO  
-            string FileName = Path.GetFileNameWithoutExtension(User.ImageFile.FileName);
+                //To Get File Extension  
+                string FileExtension = Path.GetExtension(User.ImageFile.FileName);
 
-            //To Get File Extension  
-            string FileExtension = Path.GetExtension(User.ImageFile.FileName);
+                //Add Current Date To Attached File Name  
+                FileName = DateTime.Now.ToString("yyyyMMdd") + "-" + FileName.Trim() + FileExtension;
 
-            //Add Current Date To Attached File Name  
-            FileName = DateTime.Now.ToString("yyyyMMdd") + "-" + FileName.Trim() + FileExtension;
+                //Get Upload path from Web.Config file AppSettings.  
+                string UploadPath = "";
+                string Id = User.MediaId = Guid.NewGuid().ToString();
 
-            //Get Upload path from Web.Config file AppSettings.  
-            string UploadPath = "";
-            string Id=User.MediaId = Guid.NewGuid().ToString();
+                //Its Create complete path to store in server.  
+                User.FilePath = UploadPath + Id + FileName;
+                User.MediaId = Id;
+                //To copy and save file into server.  
+                User.ImageFile.SaveAs(Server.MapPath("~/Images/") + User.FilePath);
+                User u = new User();
+                u.UserId = User.UserId;
+                u.Name = User.Name;
+                u.PhoneNumber = User.PhoneNumber;
+                u.MediaId = User.MediaId;
+               // u.Id = User.Id;
+                u.Address = User.Address;
 
-            //Its Create complete path to store in server.  
-            User.FilePath = UploadPath + Id + FileName;
-            User.MediaId = Id;
-            //To copy and save file into server.  
-            User.ImageFile.SaveAs(Server.MapPath("~/Images/") + User.FilePath);
-            User u = new User();
-            u.UserId = User.UserId;
-            u.Name = User.Name;
-            u.PhoneNumber = User.PhoneNumber;
-            u.MediaId = User.MediaId;
-            u.Id = User.Id;
-            u.Address = User.Address;
-
-            Media img = new Media();
-            img.MediaId=User.MediaId;
-            img.FilePath = User.FilePath;
-
-
-            _context.Media.Add(img);
-
-            _context.Users.Add(u);
+                Media img = new Media();
+                img.MediaId = User.MediaId;
+                img.FilePath = User.FilePath;
 
 
-            _context.SaveChanges();
-            return RedirectToAction("Index", "Home");
+                _context.Media.Add(img);
+
+                _context.Users.Add(u);
+
+
+                _context.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+            return View("UserPage", User);
         }
 
-        
+        [Authorize]
         public ActionResult EditUser(string id)
         {
 
@@ -96,7 +101,7 @@ namespace TradeWeb.Controllers
             u.PhoneNumber = User.PhoneNumber;
             u.Address = User.Address;
             u.MediaId = User.MediaId;
-            u.Id = User.Id;
+      //      u.Id = User.Id;
             u.FilePath = Media.FilePath;
 
 
@@ -105,6 +110,7 @@ namespace TradeWeb.Controllers
             return View(u);
         }
         [HttpPost]
+        [Authorize]
         public ActionResult EditProfilePicture(UserxViewModel User)
         {
             //Use Namespace called :  System.IO  
@@ -143,6 +149,7 @@ namespace TradeWeb.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public ActionResult EditName(UserxViewModel User)
         {
             var EditUser = _context.Users.SingleOrDefault(user => user.UserId == User.UserId);
@@ -157,6 +164,7 @@ namespace TradeWeb.Controllers
 
         }
         [HttpPost]
+        [Authorize]
         public ActionResult EditPhone(UserxViewModel User)
         {
             var EditUser = _context.Users.SingleOrDefault(user => user.UserId == User.UserId);
@@ -171,6 +179,7 @@ namespace TradeWeb.Controllers
 
         }
         [HttpPost]
+        [Authorize]
         public ActionResult EditAddress(UserxViewModel User)
         {
             var EditUser = _context.Users.SingleOrDefault(user => user.UserId == User.UserId);
@@ -242,6 +251,8 @@ namespace TradeWeb.Controllers
                 p.CategoryName = Post.CategoryName;
                 p.PostDescription = Post.PostDescription;
                 p.TradeDemands = Post.TradeDemands;
+                p.PostTitle = Post.PostTitle;
+                p.Timestamp = DateTime.Now;
                 _context.Post.Add(p);
                 _context.SaveChanges();
 
