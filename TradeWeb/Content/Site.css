@@ -360,12 +360,7 @@ input:-webkit-autofill:active {
         bottom: 0;
         z-index: 10;
     }
-section#hero:before {
-    display: block;
-    content: "";
-    width: 100%;
-    padding-top: 150%;
-}
+
 
 section#hero .video-box {
     position: absolute;
@@ -398,7 +393,7 @@ section#hero .video-box {
 }
 
 @media(min-width: 768px) {
-    section #hero:before {
+    section#hero:before {
         display: block;
         content: "";
         width: 100%;
@@ -460,5 +455,12 @@ section#hero .video-box {
             }
             .show-img{
                 height:260px;
+            }
+
+            section#hero:before {
+                display: block;
+                content: "";
+                width: 100%;
+                padding-top: 150%;
             }
         }
