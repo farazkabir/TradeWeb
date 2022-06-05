@@ -1,28 +1,26 @@
 *********************************TradeVilla*******************************
 
-Overview:
+#Overview:
 
 TradeVilla is a web platform for trading products online.You can create an 
 account here and upload a post about your product that you want to trade for something else. People who are interested can comment on your post and see your profile for contact information.Then they can contact you with the details you have provided. They can also review you after trading products with you and other users can watch these reviews.
 
 
-Project Features:
+#Project Features:
 
-#Responsive UI
-#User Authentication
-#User Profile Modification(Edit)
-#Post Upload with multiple images
-#Post Comment
-#Post Delete
-#Search
-#Review User
+-Responsive UI
+-User Authentication
+-User Profile Modification(Edit)
+-Post Upload with multiple images
+-Post Comment
+-Post Delete
+-Search
+-Review User
 
-
-Member Contribution:
-
-ID: 170104042 - 33.33%
-ID: 170104043 - 33.33%
-ID: 170104045 - 33.33%
+#Frameworks and Libraries:
+-ASP.NET MVC
+-Entity
+-Bootstrap
 
 
 Instructions to Follow:
